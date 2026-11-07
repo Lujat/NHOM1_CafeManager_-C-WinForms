@@ -1,39 +1,70 @@
-# Quản lý quán cà phê (WinForms C#)
+# Khoa Công nghệ Thông tin - HCMUE 
+# 2611COMP101904 - Lập trình trên Windows
+# GIảng viên hướng dẫn: ThS. Lê Thanh Thoại
+# Nhóm 1 - Đề tài 10: Quản lý quán cà phê
 
+# CafeManager — Ứng dụng quản lý quán cà phê
+Ứng dụng desktop quản lý hoạt động cơ bản của quán cà phê: bàn, thực đơn, gọi món, thanh toán, màn hình bếp và doanh thu.
+
+# Mô tả: Quản lý bàn, thực đơn, gọi món, thanh toán và doanh thu của quán cà phê.
+# Vai trò sử dụng: Nhân viên phục vụ; thu ngân; quản lý.
+Dữ liệu chính: Bàn, Nhóm món, Món, Hóa đơn, Chi tiết hóa đơn, Tài khoản.
+
+## Chức năng
+- Hiển thị bàn theo trạng thái trống hoặc đang có khách.
+- Gọi món và thay đổi số lượng món.
+- Chuyển bàn hoặc gộp hóa đơn.
+- Thanh toán, áp dụng giảm giá và in hóa đơn.
+- Quản lý nhóm món, món và ảnh món.
+- Theo dõi món đang chờ xử lý trên màn hình bếp.
+- Tra cứu doanh thu theo khoảng ngày và xem biểu đồ.
+## Công nghệ
+- C# WinForms
+- .NET 8
+- SQL Server
+- GDI+ để vẽ biểu đồ doanh thu
 ## Yêu cầu
-- Visual Studio 2022 (workload ".NET desktop development"), .NET 8
-- SQL Server 2016 trở lên (Developer/Express) + SSMS
 
-## Cách chạy
-1. Mở SSMS, kết nối tới đúng instance SQL Server, mở `Database/CafeDB.sql` rồi nhấn Execute (F5).
-   Script chỉ tạo database nếu chưa có, tạo các bảng còn thiếu và thêm dữ liệu mẫu chưa tồn tại. Chạy lại script không xóa database.
-2. Nếu database đã có dữ liệu trùng, sao lưu `CafeDB` trước rồi chạy `Database/RepairDuplicates.sql`. Script gộp bàn, danh mục và món trùng, cập nhật liên kết hóa đơn trong transaction và dừng an toàn nếu cùng tên món đang có giá khác nhau.
-3. Mở `App.config`, sửa `Server=` cho đúng máy bạn (xem ví dụ trong file):
-   `localhost`, `.\SQLEXPRESS`, hoặc `TEN-MAY\TEN-INSTANCE`.
-4. Bấm đúp `CafeManager.sln` để mở bằng Visual Studio, đợi restore NuGet, nhấn F5.
+- Windows
+- Visual Studio 2022 phiên bản 17.8 trở lên, kèm workload **.NET desktop development**
+- SQL Server 2016 trở lên
+- SQL Server Management Studio (SSMS)
+## Tài khoản demo
+mật khẩu demo là `123456`.
 
-## Tài khoản mẫu (mật khẩu 123456)
-| Tài khoản | Vai trò  | Quyền |
-|-----------|----------|-------|
-| phucvu    | Phục vụ  | Xem bàn, gọi món, đổi số lượng, chuyển/gộp bàn, màn hình bếp |
-| thungan   | Thu ngân | Như phục vụ + giảm giá, thanh toán, in hóa đơn |
-| admin     | Quản lý  | Tất cả + tra cứu doanh thu, biểu đồ |
+| Tài khoản | Vai trò |
+|---|---|
+| `phucvu` | Phục vụ |
+| `thungan` | Thu ngân |
+| `admin` | Quản lý |
 
-## Lỗi thường gặp
-- "A network-related or instance-specific error": sai `Server=` trong App.config hoặc dịch vụ của instance đang dùng chưa chạy.
-  Kiểm tra đúng tên instance trong SQL Server Configuration Manager.
-- "Login failed": dùng Windows Authentication thì tài khoản Windows phải có quyền; hoặc đổi sang `User Id=sa;Password=...`.
-- "Cannot open database CafeDB": chưa chạy script `CafeDB.sql`.
+Các tài khoản mẫu chỉ phục vụ việc chạy thử. Không dùng mật khẩu demo cho môi trường thực tế.
 
-## Cấu trúc mã nguồn (MVP)
-- `Models/`      mô hình dữ liệu và phân quyền: `Account.cs`, `Food.cs`, `Category.cs`, `TableFood.cs`, `BillItem.cs`, `Role.cs`
-- `Views/Contracts/` giao diện hợp đồng để Presenter điều khiển mà không phụ thuộc WinForms
-- `Forms/`       phần hiển thị WinForms: `LoginView`, `OrderView`, `KitchenView`, `RevenueView`, `MenuManagementView`, `FoodEditorView`; `ChartPanel` vẽ biểu đồ GDI+
-- `Presenters/`  xử lý luồng đăng nhập, gọi món, bếp, doanh thu và quản lý thực đơn
-- `Repositories/` đọc/ghi SQL Server: `AccountRepository`, `FoodRepository`, `TableRepository`, `BillRepository`, `KitchenRepository`, `RevenueRepository`
-- `Helpers/`     kết nối dữ liệu, mật khẩu, lưu ảnh món và in hóa đơn
-- `Database/`    script tạo CSDL, dữ liệu mẫu và sửa dữ liệu trùng
+## Cấu trúc mã nguồn
 
-Ví dụ luồng MVP: `OrderView` phát sự kiện khi người dùng thao tác; `OrderPresenter` kiểm tra quyền và điều phối; `BillRepository` thực hiện truy vấn/transaction với SQL Server.
+```text
+CafeManager/
+├── Database/       Script khởi tạo database và xử lý dữ liệu trùng
+├── Forms/          Các màn hình WinForms
+├── Helpers/        Kết nối dữ liệu, in hóa đơn, xử lý mật khẩu và ảnh
+├── Models/         Các lớp dữ liệu và vai trò
+├── Presenters/     Điều phối nghiệp vụ theo mô hình MVP
+├── Repositories/   Đọc và ghi dữ liệu SQL Server
+├── Views/
+│   └── Contracts/  Giao diện hợp đồng giữa View và Presenter
+├── App.config      Cấu hình kết nối database
+├── Program.cs      Điểm bắt đầu ứng dụng
+└── CafeManager.sln
+```
 
+## Database và dữ liệu
 
+- `Database/CafeDB.sql` tạo cấu trúc database 
+- `Database/RepairDuplicates.sql` dùng để gộp dữ liệu trùng.
+- `Database/MigrateFoodImagePaths.sql` dùng để chuyển đường dẫn ảnh
+- Hóa đơn và chi tiết hóa đơn được lưu trong SQL Server, ở các bảng `Bill` và `BillInfo`.
+- Khi chạy từ mã nguồn, ảnh món được lưu trong `Resources/FoodImages/`.
+
+## 
+
+# -------------------------------------------------HET-----------------------------------------------------

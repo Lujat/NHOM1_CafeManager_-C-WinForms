@@ -46,7 +46,7 @@ public sealed class FoodEditorPresenter
             string imagePath = _existing?.ImagePath;
             if (_view.ClearImage) imagePath = null;  
             else if (!string.IsNullOrWhiteSpace(_view.SelectedImageSource))
-                imagePath = FoodImageStorage.CopyToLibrary(_view.SelectedImageSource);
+                imagePath = FoodImageStorage.CopyToLibrary(_view.SelectedImageSource, _view.FoodName);
 
             var category = FoodRepository.GetCategories().FirstOrDefault(item => item.Id == categoryId);
             _view.SetSavedFood(new Food
