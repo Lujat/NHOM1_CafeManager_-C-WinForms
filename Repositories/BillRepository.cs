@@ -70,7 +70,7 @@ public static class BillRepository
         }
         catch { tran.Rollback(); throw; }
     }
-    //update chuyen ban , gop mon
+    //update gop ban 
     public static void MoveOrMerge(int fromTableId, int toTableId)
     {
         using var conn = new SqlConnection(DataProvider.ConnStr);
@@ -117,22 +117,37 @@ public static class BillRepository
         DataProvider.Exec(c, t, "UPDATE TableFood SET Status=1 WHERE Id=@t", ("@t", tableId));
         return Convert.ToInt32(id);
     }
-
+    //tang giam so luong 
     static void Upsert(SqlConnection c, SqlTransaction t, int billId, int foodId, int delta,
                        bool resetKitchen, int newKitchenStatus)
     {
+        if (delta < 0)
+        {
+            DataProvider.Exec(c, t,
+                @"DELETE FROM BillInfo
+              WHERE BillId = @b AND FoodId = @f
+                AND Quantity + @d <= 0",
+                ("@b", billId), ("@f", foodId), ("@d", delta));
+        }
+
         int affected = DataProvider.Exec(c, t,
             @"UPDATE BillInfo
-              SET Quantity = Quantity + @d,
-                  KitchenStatus = CASE WHEN @d > 0 AND @reset = 1 THEN 0 ELSE KitchenStatus END
-              WHERE BillId=@b AND FoodId=@f",
-            ("@d", delta), ("@reset", resetKitchen ? 1 : 0), ("@b", billId), ("@f", foodId));
+          SET Quantity = Quantity + @d,
+              KitchenStatus = CASE
+                  WHEN @d > 0 AND @reset = 1 THEN 0
+                  ELSE KitchenStatus
+              END
+          WHERE BillId = @b AND FoodId = @f",
+            ("@d", delta), ("@reset", resetKitchen ? 1 : 0),
+            ("@b", billId), ("@f", foodId));
 
         if (affected == 0 && delta > 0)
+        {
             DataProvider.Exec(c, t,
-                "INSERT INTO BillInfo(BillId, FoodId, Quantity, KitchenStatus) VALUES(@b,@f,@q,@k)",
-                ("@b", billId), ("@f", foodId), ("@q", delta), ("@k", newKitchenStatus));
-
-        DataProvider.Exec(c, t, "DELETE FROM BillInfo WHERE BillId=@b AND Quantity <= 0", ("@b", billId));
+                @"INSERT INTO BillInfo(BillId, FoodId, Quantity, KitchenStatus)
+              VALUES(@b, @f, @q, @k)",
+                ("@b", billId), ("@f", foodId), ("@q", delta),
+                ("@k", newKitchenStatus));
+        }
     }
 }
