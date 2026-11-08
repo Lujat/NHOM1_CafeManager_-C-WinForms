@@ -122,7 +122,7 @@ BEGIN CATCH
 END CATCH;
 GO
 
--- Kết quả kiểm tra sau khi gộp: các truy vấn phải trả về 0 dòng.
+-- ket qua kiem tra 
 SELECT Name, COUNT(*) AS SoDong
 FROM dbo.TableFood GROUP BY Name HAVING COUNT(*) > 1;
 SELECT Name, COUNT(*) AS SoDong

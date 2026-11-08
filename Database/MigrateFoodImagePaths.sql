@@ -3,18 +3,6 @@ GO
 SET NOCOUNT ON;
 SET XACT_ABORT ON;
 
-/*
-    Chuyen ImagePath tu phien ban cu (AppData\CafeManager\Images\<file>)
-    sang Resources/FoodImages/<file>.
-
-    TRUOC KHI CHAY:
-    1. Sao luu database CafeDB.
-    2. Copy cac file anh cu vao thu muc du an Resources/FoodImages va giu nguyen ten file.
-    3. Chay lan dau voi @ApplyChanges = 0 de xem danh sach duong dan du kien.
-    4. Chi doi thanh 1 sau khi da copy va kiem tra cac file anh.
-
-    Script chi cap nhat chuoi duong dan trong dbo.Food; khong xoa hay sua file anh.
-*/
 DECLARE @ApplyChanges BIT = 0;
 
 DECLARE @PathMap TABLE

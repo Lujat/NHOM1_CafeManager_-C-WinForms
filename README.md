@@ -1,7 +1,11 @@
 # Khoa Công nghệ Thông tin - HCMUE 
 # 2611COMP101904 - Lập trình trên Windows
-# GIảng viên hướng dẫn: ThS. Lê Thanh Thoại
-# Nhóm 1 - Đề tài 10: Quản lý quán cà phê
+GIảng viên hướng dẫn: ThS. Lê Thanh Thoại 
+Nhóm 1 - Đề tài 10: Quản lý quán cà phê
+
+Thanh viên nhóm: 
+Nguyễn Trung Luật -- 49.01.104.086 
+Nguyễn Trương Thanh Đông – 51.01.104.130
 
 # CafeManager — Ứng dụng quản lý quán cà phê
 Ứng dụng desktop quản lý hoạt động cơ bản của quán cà phê: bàn, thực đơn, gọi món, thanh toán, màn hình bếp và doanh thu.
