@@ -3,7 +3,7 @@ using CafeManager.Presenters;
 using CafeManager.Views.Contracts;
 
 namespace CafeManager.Forms;
-
+// quan ly mon
 public sealed class MenuManagementView : Form, IMenuManagementView
 {
     readonly DataGridView grid = new()
@@ -12,7 +12,6 @@ public sealed class MenuManagementView : Form, IMenuManagementView
         SelectionMode = DataGridViewSelectionMode.FullRowSelect, MultiSelect = false,
         AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill, RowHeadersVisible = false
     };
-
     public int? SelectedFoodId => (grid.CurrentRow?.DataBoundItem as Food)?.Id;
     public event Action Loaded;
     public event Action AddFoodRequested;
@@ -26,7 +25,6 @@ public sealed class MenuManagementView : Form, IMenuManagementView
         Text = "Quản lý thực đơn";
         ClientSize = new Size(760, 480);
         StartPosition = FormStartPosition.CenterParent;
-
         var toolbar = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 44, Padding = new Padding(6) };
         var add = new Button { Text = "Thêm món", AutoSize = true };
         var edit = new Button { Text = "Sửa món đang chọn", AutoSize = true };
@@ -42,7 +40,6 @@ public sealed class MenuManagementView : Form, IMenuManagementView
         Controls.Add(toolbar);
         Load += (s, e) => Loaded?.Invoke();
     }
-
     public void ShowFoods(IReadOnlyList<Food> foods)
     {
         grid.DataSource = foods.ToList();
@@ -67,7 +64,6 @@ public sealed class MenuManagementView : Form, IMenuManagementView
         _ = new FoodEditorPresenter(editor, existingFood);
         return editor.ShowDialog(this) == DialogResult.OK ? editor.Result : null;
     }
-
     public bool Confirm(string message)
         => MessageBox.Show(this, message, "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes;
 

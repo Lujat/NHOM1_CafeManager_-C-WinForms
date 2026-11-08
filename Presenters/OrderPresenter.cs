@@ -4,8 +4,6 @@ using CafeManager.Repositories;
 using CafeManager.Views.Contracts;
 
 namespace CafeManager.Presenters;
-// phan quyen phucvu 
-
 public sealed class OrderPresenter
 {
     readonly IOrderView _view;
@@ -36,6 +34,7 @@ public sealed class OrderPresenter
         _view.LogoutRequested += _view.CloseForLogout;
     }
 
+    // phan quyen
     void Initialize()
     {
         try
@@ -66,7 +65,6 @@ public sealed class OrderPresenter
         }
         catch (Exception ex) { _view.ShowError(ex.Message); }
     }
-
     void LoadFoods(int categoryId)
     {
         try { _view.ShowFoods(categoryId > 0 ? FoodRepository.GetByCategory(categoryId) : new List<Food>()); }

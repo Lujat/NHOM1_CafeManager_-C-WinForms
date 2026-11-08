@@ -3,7 +3,6 @@ using CafeManager.Models;
 using CafeManager.Views.Contracts;
 
 namespace CafeManager.Forms;
-
 public sealed class FoodEditorView : Form, IFoodEditorView
 {
     readonly TextBox txtName = new() { Left = 105, Top = 16, Width = 260 };
@@ -11,7 +10,6 @@ public sealed class FoodEditorView : Form, IFoodEditorView
     readonly NumericUpDown nudPrice = new() { Left = 105, Top = 88, Width = 150, Maximum = 1000000000, ThousandsSeparator = true };
     readonly PictureBox preview = new() { Left = 105, Top = 128, Width = 160, Height = 130, BorderStyle = BorderStyle.FixedSingle, SizeMode = PictureBoxSizeMode.Zoom };
     readonly Label lblImage = new() { Left = 105, Top = 262, Width = 260, Height = 32, AutoEllipsis = true };
-
     public string FoodName => txtName.Text;
     public int? CategoryId => (cbCategory.SelectedItem as Category)?.Id;
     public decimal Price => nudPrice.Value;
@@ -21,7 +19,7 @@ public sealed class FoodEditorView : Form, IFoodEditorView
     public event Action SaveRequested;
     public event Action ChooseImageRequested;
     public event Action ClearImageRequested;
-
+    // chinh sua mon
     public FoodEditorView(Food existing)
     {
         Text = existing == null ? "Thêm món" : "Sửa món";
@@ -52,7 +50,7 @@ public sealed class FoodEditorView : Form, IFoodEditorView
         lblImage.Text = existing?.ImagePath ?? "Chưa có ảnh";
         if (existing != null) ShowImage(existing.ImagePath);
     }
-
+    // add anh mon 
     void ChooseImage()
     {
         using var dialog = new OpenFileDialog
@@ -66,7 +64,6 @@ public sealed class FoodEditorView : Form, IFoodEditorView
         SelectedImageSource = dialog.FileName;
         ChooseImageRequested?.Invoke();
     }
-
     public void ShowCategories(IReadOnlyList<Category> categories, int? selectedCategoryId)
     {
         cbCategory.DataSource = categories.ToList();
@@ -92,27 +89,22 @@ public sealed class FoodEditorView : Form, IFoodEditorView
         lblImage.Text = Path.GetFileName(imagePath);
         ShowImage(imagePath);
     }
-
     void ShowImage(string path)
     {
         var old = preview.Image;
         preview.Image = FoodImageStorage.LoadImage(path);
         old?.Dispose();
     }
-
     public void SetSavedFood(Food food)
     {
         Result = food;
         DialogResult = DialogResult.OK;
         Close();
     }
-
     public void ShowValidationMessage(string message)
         => MessageBox.Show(this, message, "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
     public void ShowError(string message)
         => MessageBox.Show(this, message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
     protected override void Dispose(bool disposing)
     {
         if (disposing) preview.Image?.Dispose();

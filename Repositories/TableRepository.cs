@@ -2,8 +2,6 @@ using CafeManager.Helpers;
 using CafeManager.Models;
 
 namespace CafeManager.Repositories;
-
-// quan ly ban 
 public static class TableRepository
 {
     public static List<TableFood> GetAll()

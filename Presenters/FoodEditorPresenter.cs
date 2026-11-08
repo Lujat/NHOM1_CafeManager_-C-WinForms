@@ -4,7 +4,6 @@ using CafeManager.Repositories;
 using CafeManager.Views.Contracts;
 namespace CafeManager.Presenters;
 
-// CRUD mon an
 public sealed class FoodEditorPresenter
 {
     readonly IFoodEditorView _view;

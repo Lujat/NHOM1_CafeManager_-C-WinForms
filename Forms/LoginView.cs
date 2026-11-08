@@ -2,17 +2,15 @@ using CafeManager.Models;
 using CafeManager.Views.Contracts;
 
 namespace CafeManager.Forms;
-
+// form dangnhap
 public sealed class LoginView : Form, ILoginView
 {
     readonly TextBox txtUser = new() { Left = 110, Top = 20, Width = 180 };
     readonly TextBox txtPassword = new() { Left = 110, Top = 55, Width = 180, UseSystemPasswordChar = true };
-
     public string UserName => txtUser.Text;
     public string Password => txtPassword.Text;
     public Account User { get; private set; }
     public event Action LoginRequested;
-
     public LoginView()
     {
         Text = "Đăng nhập - Quản lý quán cà phê";
@@ -32,13 +30,11 @@ public sealed class LoginView : Form, ILoginView
             txtUser, txtPassword, login
         });
     }
-
     public void LoginSucceeded(Account account)
     {
         User = account;
         DialogResult = DialogResult.OK;
     }
-
     public void ShowError(string message)
         => MessageBox.Show(this, message, "Đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 }

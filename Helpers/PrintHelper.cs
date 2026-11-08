@@ -49,6 +49,6 @@ public static class PrintHelper
         };
 
         using var preview = new PrintPreviewDialog { Document = doc, Width = 500, Height = 700 };
-        preview.ShowDialog();   // trong cửa sổ preview có nút In
+        preview.ShowDialog();   // hien thi preview 
     }
 }

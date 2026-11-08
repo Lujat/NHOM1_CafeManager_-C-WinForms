@@ -6,7 +6,6 @@ namespace CafeManager.Repositories;
 public static class RevenueRepository
 {
     // Doanh thu tung ngay 
-
     public static DataTable GetDaily(DateTime from, DateTime to)
     {
         return DataProvider.Query(

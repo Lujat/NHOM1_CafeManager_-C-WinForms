@@ -6,7 +6,7 @@ namespace CafeManager.Repositories;
 
 public static class BillRepository
 {
-
+    //lay hoa don 
     public static int GetUnpaidBillId(int tableId)
     {
         var o = DataProvider.Scalar("SELECT TOP 1 Id FROM Bill WHERE TableId=@t AND Status=0", ("@t", tableId));
@@ -28,8 +28,6 @@ public static class BillRepository
             });
         return list;
     }
-
-    // them mon , them so luong mon, trang thai ban 
     public static void ChangeQuantity(int tableId, int foodId, int delta)
     {
         using var conn = new SqlConnection(DataProvider.ConnStr);
@@ -50,8 +48,6 @@ public static class BillRepository
         }
         catch { tran.Rollback(); throw; }
     }
-
-    // thanh toan + update tt ban
     public static decimal Checkout(int billId, int tableId, int discountPercent)
     {
         using var conn = new SqlConnection(DataProvider.ConnStr);
@@ -74,8 +70,7 @@ public static class BillRepository
         }
         catch { tran.Rollback(); throw; }
     }
-
-    // chuyen ban hoac gop hoa don (bat buoc)
+    //update chuyen ban , gop mon
     public static void MoveOrMerge(int fromTableId, int toTableId)
     {
         using var conn = new SqlConnection(DataProvider.ConnStr);
@@ -91,12 +86,10 @@ public static class BillRepository
 
             if (toBillObj == null)
             {
-                // Chuyen ban
                 DataProvider.Exec(conn, tran, "UPDATE Bill SET TableId=@to WHERE Id=@b", ("@to", toTableId), ("@b", fromBill));
             }
             else
             {
-                // gop hoa don 
                 int toBill = Convert.ToInt32(toBillObj);
                 var items = DataProvider.Query(conn, tran,
                     "SELECT FoodId, Quantity, KitchenStatus FROM BillInfo WHERE BillId=@b", ("@b", fromBill));
@@ -114,8 +107,6 @@ public static class BillRepository
         }
         catch { tran.Rollback(); throw; }
     }
-
-    //========
     static int GetOrCreateBill(SqlConnection c, SqlTransaction t, int tableId)
     {
         var o = DataProvider.Scalar(c, t, "SELECT TOP 1 Id FROM Bill WHERE TableId=@t AND Status=0", ("@t", tableId));

@@ -2,11 +2,10 @@ using CafeManager.Repositories;
 using CafeManager.Views.Contracts;
 
 namespace CafeManager.Presenters;
-//kieem tra login 
+// login va kiem tra  
 public sealed class LoginPresenter
 {
     readonly ILoginView _view;
-
     public LoginPresenter(ILoginView view)
     {
         _view = view;

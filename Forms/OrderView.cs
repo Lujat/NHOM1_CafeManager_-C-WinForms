@@ -28,7 +28,6 @@ public sealed class OrderView : Form, IOrderView, IOrderNavigator
     readonly ToolStripMenuItem miMenuManagement = new("Quản lý thực đơn");
     readonly ToolStripMenuItem miLogout = new("Đăng xuất");
     bool _bindingCategories;
-
     public Account User { get; }
     public bool LoggedOut { get; private set; }
     public int? SelectedTableId { get; private set; }
@@ -38,7 +37,6 @@ public sealed class OrderView : Form, IOrderView, IOrderNavigator
     public int? SelectedBillFoodId => billList.SelectedItems.Count == 0 ? null : (billList.SelectedItems[0].Tag as BillItem)?.FoodId;
     public int Quantity => (int)nudQuantity.Value;
     public int DiscountPercent => (int)nudDiscount.Value;
-
     public event Action Loaded;
     public event Action<int> TableSelected;
     public event Action<int> CategorySelected;

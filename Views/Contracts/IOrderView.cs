@@ -16,7 +16,6 @@ public interface IOrderView
     event Action MenuManagementRequested;
     event Action RevenueRequested;
     event Action LogoutRequested;
-
     Account User { get; }
     int? SelectedTableId { get; }
     int? SelectedFoodId { get; }

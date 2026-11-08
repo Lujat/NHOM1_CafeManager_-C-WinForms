@@ -5,7 +5,7 @@ namespace CafeManager.Helpers;
 
 public static class DataProvider
 {
-    // Đọc từ App.config (mục connectionStrings -> CafeDB)
+    // doc App.config
     public static string ConnStr =>
         System.Configuration.ConfigurationManager.ConnectionStrings["CafeDB"].ConnectionString;
 
@@ -15,7 +15,7 @@ public static class DataProvider
             cmd.Parameters.AddWithValue(name, value ?? DBNull.Value);
     }
 
-    // ---- Truy vấn thường (tự mở/đóng kết nối) ----
+    // Truy van 
     public static DataTable Query(string sql, params (string, object)[] ps)
     {
         using var conn = new SqlConnection(ConnStr);
@@ -45,7 +45,7 @@ public static class DataProvider
         return cmd.ExecuteNonQuery();
     }
 
-    // ---- Dùng bên trong transaction ----
+    // transaction
     public static object Scalar(SqlConnection c, SqlTransaction t, string sql, params (string, object)[] ps)
     {
         using var cmd = new SqlCommand(sql, c, t);
@@ -53,14 +53,12 @@ public static class DataProvider
         var o = cmd.ExecuteScalar();
         return o == DBNull.Value ? null : o;
     }
-
     public static int Exec(SqlConnection c, SqlTransaction t, string sql, params (string, object)[] ps)
     {
         using var cmd = new SqlCommand(sql, c, t);
         AddParams(cmd, ps);
         return cmd.ExecuteNonQuery();
     }
-
     public static DataTable Query(SqlConnection c, SqlTransaction t, string sql, params (string, object)[] ps)
     {
         using var cmd = new SqlCommand(sql, c, t);
