@@ -50,8 +50,6 @@ BEGIN
 END
 GO
 
--- ImagePath stores a relative path such as Resources/FoodImages/coffee-<id>.jpg.
--- Keep it NULL when a food has no image; image files are added to the project separately.
 IF COL_LENGTH(N'dbo.Food', N'ImagePath') IS NULL
 BEGIN
     ALTER TABLE dbo.Food ADD ImagePath NVARCHAR(260) NULL;
